@@ -1,2 +1,1 @@
-/// <refrence types="nativewind/types"/>
-// enable to recognise tailwind classes with ts
+/// <reference types="nativewind/types" />
