@@ -50,7 +50,7 @@ const WelcomeScreen = () => {
         ))}
       </Swiper>
 
-      <CustomButton title={isLastSlide ? "Get Satrted" : "Next"} className="w-11/12 mt-10" onPress={() => isLastSlide ? router.replace("/(auth)/sign-up"): swiperRef.current?.scrollBy(1)} />
+      <CustomButton title={isLastSlide ? "Get Started" : "Next"} className="w-11/12 mt-10" onPress={() => isLastSlide ? router.replace("/(auth)/sign-up"): swiperRef.current?.scrollBy(1)} />
     </SafeAreaView>
   );
 };
