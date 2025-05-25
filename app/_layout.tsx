@@ -2,6 +2,7 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router";
 import "react-native-reanimated";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/clerk-expo";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 
@@ -23,11 +24,13 @@ export default function RootLayout() {
   }
 
   return (
+    <ClerkProvider>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
         <Stack.Screen name="(root)" options={{ headerShown: false }} />
         <Stack.Screen name="+not-found" />
       </Stack>
+    </ClerkProvider>
   );
 }
