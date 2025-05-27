@@ -5,6 +5,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/clerk-expo";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { tokenCache } from "@/lib/auth";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -24,7 +25,7 @@ export default function RootLayout() {
   }
 
   return (
-    <ClerkProvider>
+    <ClerkProvider tokenCache={tokenCache}>
       <Stack>
         <Stack.Screen name="index" options={{ headerShown: false }} />
         <Stack.Screen name="(auth)" options={{ headerShown: false }} />
