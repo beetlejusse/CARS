@@ -5,16 +5,36 @@ import { images } from "@/constants";
 import InputField from "@/components/InputField";
 import { icons } from "@/constants";
 import CustomButton from "@/components/CustomButton";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import OAuthComponent from "@/components/OAuthComponent";
+import { useSignIn } from '@clerk/clerk-expo'
 
 const SignIn = () => {
+  const { signIn, setActive, isLoaded } = useSignIn()
+  const router = useRouter()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const onSigninPress = async () => {};
+  const onSigninPress = async () => {
+    if (!isLoaded) return;
+
+    try {
+      const signInAttempt = await signIn.create({
+        identifier: formData.email,
+        password: formData.password,
+      })
+      if (signInAttempt.status === 'complete') {
+        await setActive({ session: signInAttempt.createdSessionId })
+        router.replace('/')
+      } else {
+        console.error(JSON.stringify(signInAttempt, null, 2))
+      }
+    } catch (err) {
+      console.error(JSON.stringify(err, null, 2))
+    }
+  }
 
   return (
     <ScrollView className="flex-1 bg-white">
