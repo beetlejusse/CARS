@@ -11,10 +11,10 @@ const TabIcon = ({
   focused: boolean;
 }) => (
   <View
-    className={`flex flex-row justify-center items-center rounded-full ${focused ? "bg-general-300" : ""}`}
+    className={`flex flex-row justify-center items-center rounded-full `}
   >
     <View
-      className={`rounded-full w-12 h-12 items-center justify-center ${focused ? "bg-general-400" : ""}`}
+      className={`rounded-2xl w-12 h-12 items-center justify-center ${focused ? "bg-general-400" : ""}`}
     >
       <Image
         source={source}
@@ -35,12 +35,11 @@ export default function TabLayout() {
         tabBarInactiveTintColor: "white",
         tabBarShowLabel: false,
         tabBarStyle: {
-          backgroundColor: "#333333",
-          borderRadius: 50,
-          paddingBottom: 0, // ios only
+          backgroundColor: "#342536",
+          borderRadius:20,
           overflow: "hidden",
           marginHorizontal: 20,
-          marginBottom: 20,
+          marginBottom: 30,
           height: 78,
           display: "flex",
           justifyContent: "space-between",
@@ -61,7 +60,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="rides"
+        name="historyofrides"
         options={{
           title: "Rides",
           headerShown: false,

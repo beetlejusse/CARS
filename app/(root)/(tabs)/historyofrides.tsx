@@ -1,12 +1,14 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const histroryofrides = () => {
+const historyofrides = () => {
   return (
     <View>
-      <Text>histroryofrides</Text>
+      <Text>historyofrides
+
+      </Text>
     </View>
   )
 }
 
-export default histroryofrides
+export default historyofrides
