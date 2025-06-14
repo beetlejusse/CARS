@@ -9,6 +9,7 @@ import OAuthComponent from "@/components/OAuthComponent";
 import { useSignUp } from "@clerk/clerk-expo";
 import { Link, useRouter } from "expo-router";
 import ReactNativeModal from "react-native-modal";
+import { fetchAPI } from "@/lib/fetch";
 
 const SignUp = () => {
   const { isLoaded, signUp, setActive } = useSignUp();
@@ -56,6 +57,14 @@ const SignUp = () => {
       });
       if (signUpAttempt.status === "complete") {
         //create a database user
+        await fetchAPI("/(api)/user", {
+          method: "POST",
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            clerkId: signUpAttempt.createdUserId
+          })
+        })
 
         await setActive({ session: signUpAttempt.createdSessionId });
         setVerification({
@@ -66,7 +75,7 @@ const SignUp = () => {
       } else {
         setVerification({
           ...verification,
-          error: "Verificatio failed",
+          error: "Verification failed",
           state: "failed",
         });
         console.error(JSON.stringify(signUpAttempt, null, 2));
@@ -134,8 +143,6 @@ const SignUp = () => {
             <Text className="text-primary-500">Log In</Text>
           </Link>
         </View>
-
-        {/* verification model */}
 
         <ReactNativeModal
           isVisible={verification.state === "pending"}
