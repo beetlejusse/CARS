@@ -56,7 +56,6 @@ const SignUp = () => {
         code: verification.code,
       });
       if (signUpAttempt.status === "complete") {
-        //create a database user
         await fetchAPI("/(api)/user", {
           method: "POST",
           body: JSON.stringify({
