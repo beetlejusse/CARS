@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import RideCard from "@/components/RideCard";
 import { sampleData } from "@/lib/data";
 import { SignedIn, SignedOut, useUser } from "@clerk/clerk-expo";
@@ -7,12 +8,46 @@ import { FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Image } from "react-native";
 import { icons, images } from "@/constants";
+import GoogleTextInput from "@/components/GoogleTextInput";
+import Map from "@/components/Map";
+import { useLocationStore } from "@/store";
+import * as Location from "expo-location";
 
 export default function Home() {
   const { user } = useUser();
   const loading = true;
+  const { setUserLocation, setDestinationLocation } = useLocationStore();
 
   const handleSignOut = () => {};
+  const handleDestinationPress = () => {};
+
+  const [hasPermission, setHasPermission] = useState(false);
+  useEffect(() => {
+    const requestLocation = async () => {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+
+      if (status !== "granted") {
+        console.log("Permission to access location was denied");
+        setHasPermission(false);
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync();
+
+      let address = await Location.reverseGeocodeAsync({
+        latitude: location.coords?.latitude!,
+        longitude: location.coords?.longitude!,
+      });
+
+      setUserLocation({
+        latitude: location.coords?.latitude!,
+        longitude: location.coords?.longitude!,
+        address: `${address[0].name}, ${address[0].region}`,
+      });
+    };
+
+    requestLocation();
+  }, []);
 
   return (
     <SafeAreaView className="bg-general-500">
@@ -58,7 +93,19 @@ export default function Home() {
               </TouchableOpacity>
             </View>
 
-            {/* Google text input */}
+            <GoogleTextInput
+              icon={icons.search}
+              containerStyle="bg-white shadow-md shadow-neutral-300"
+              handlePress={handleDestinationPress}
+            />
+            <>
+              <Text className="text-xl font-JakartaBold mt-5 mb-3">
+                Your Current Location
+              </Text>
+              <View className="flex flex-row items-center bg-transparent h-[300px]">
+                <Map />
+              </View>
+            </>
           </>
         )}
       />
